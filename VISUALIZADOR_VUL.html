@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8"/>
+    <title>VISUALIZADOR DE VULNERABILIDAD SOCIAL</title>
+    <!-- Consumimos los ervicios de leaftlet  CSS y el JS 8java script)-->
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+  
+    <!-- Mapa de referencia-->
+    <link rel="stylesheet" href="libs/overview/MiniMap.css" />
+    <script src="libs/overview/MiniMap.js"></script>
+    
+    <!-- Barra de navegación-->
+    <link rel="stylesheet" href="libs/NavBar/NavBar.css"/>
+    <script src="libs/NavBar/NavBar.js"></script>
+
+    <!-- Posición del mouse-->
+    <link rel="stylesheet" href="libs/L.Control.MousePosition.css" />
+    <script src="libs/L.Control.MousePosition.js"></script>
+
+    <!-- Draw-->
+<script src= "https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw-src.js"></script>
+<link rel="stylesheet" href= "https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.css">
+<script src= "https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.js"></script>
+    
+    <!-- Geocodificardor-->
+    <link rel="stylesheet" href="libs/Control.OSMGeocoder.css"/>
+    <script src="libs/Control.OSMGeocoder.js"></script>
+    <!-- Localización -->
+    <link rel="stylesheet" href="libs/L.Control.Locate.min.css" />
+    <script src="libs/L.Control.Locate.js"></script>
+    <!-- Slide menu-->
+    <link rel="stylesheet" href="libs/slide_menu/SlideMenu.css" />
+    <script src="libs/slide_menu/SlideMenu.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        
+    <!--Clustering-->
+    <link rel="stylesheet" href="https://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.Default.css" />
+    <script src="https://leaflet.github.io/Leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+    <script src="https://leaflet.github.io/Leaflet.markercluster/example/realworld.388.js"></script>
+<!--encabezado-->
+<link rel="stylesheet" type= "text/css" href"estilos/estilos.css"/>
+<link rel="stylesheet" type="text/css" href="estilos/diseño.css"/>
+
+
+  <!--ESTILOS DEL MAPA-->
+    <style type="text/css">
+        #mapid {
+        height: 600px;
+        width: 100%;
+        position: relative;
+        top: 2px;
+
+    }
+
+    .info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
+            
+            .legend {
+                line-height: 20px;
+                color: #555;
+            }
+            .legend i {
+                width: 18px;
+                height: 18px;
+                float: left;
+                margin-right: 8px;
+                opacity: 0.7;
+            }
+   </style>
+
+    <body>
+
+      <!-- librería de bootsrap-->
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+      <!-- JQuery-->
+      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <div class="collapse" id="navbarToggleExternalContent">
+        <div class="bg-dark p-4">
+          <h5 class="text-white h4">ECATSIG. Visualizador geográfico de vulnerabilidad social</h5>
+          <span class="text-muted">Toggleable via the navbar brand.</span>
+          <li><a href = "">  IDEST </a>
+            <ul>
+            <li><a href = ""> ¿Qué es? </a></li>
+            <li><a href = ""> Objetivos</a></li>
+            </ul>
+            </li>
+            <li><a href = "">  Servicios </a>
+            <ul>
+            <li><a href = ""> Servicios WMS </a></li>
+            <li><a href = ""> Servicios WFS</a></li>
+            </ul>
+            </li>
+            
+            <li><a href = "">  Metadatos</a>
+            <li><a href = "">  Catálogo de datos</a>						
+                                                    
+                <li><a href = "">  Buscar </a>
+                    <ul class = "buscar">
+                <li> 
+                <input type="text" placeholder="Palabra" name="Buscar" id="Buscar">
+                </li>
+                <br>
+                <input type="button" value="Buscar">	
+            
+        </div>
+      </div>
+       <nav class="navbar navbar-dark bg-dark">
+         <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      </nav>
+        <div id="mapid"></div>
+        <script>
+            var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+            var WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+            var EsriStreet = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}');
+            
+     
+      
+
+            //crear un objeto de tipo mapa de leaftlet
+            var map = L.map('mapid', {
+                layers: [WorldImagery], // Mapa base
+                center: [19.304448, -99.675985],
+                maxZoom: 18, //nivel maximo del zoom del mapa
+                zoom: 8  // nivel inicial del mapa
+              });
+               
+              
+              var mapasBase = {
+                  "OSM": osm,
+                  "Satélite ESRI": WorldImagery,
+                  "ESRI calles" : EsriStreet
+              };
+
+              var misCapas = {
+
+              };
+
+             
+              //Definir las características de WMS 
+              var capacidadrespuesta = L.tileLayer.wms("http://localhost:8080/geoserver/ECATSIG_LIZ/wms",{
+                  layers: 'ECATSIG_LIZ:Capacidad de respuesta',
+                  visible: true,
+                  format: 'image/png',
+                  opacity:0.3,
+                  maxZoom: 18,
+                  transparent:true,
+                  version:'1.0.0',
+                  zIndex:20,
+                  attribution: 'Secretaría de Salud- FacGeo'
+              });
+              
+              //Definir las características de WMS 
+              var delegaciones = L.tileLayer.wms("http://localhost:8080/geoserver/ECATSIG_LIZ/wms",{
+                  layers: 'ECATSIG_LIZ:Delegaciones',
+                  visible: true,
+                  format: 'image/png',
+                  opacity:1,
+                  maxZoom: 18,
+                  transparent:true,
+                  version:'1.0.0',
+                  zIndex:20,
+                  attribution: 'Secretaría de Salud- FacGeo'
+              });
+              //Definir las características de WMS 
+              var deslizamientos = L.tileLayer.wms("http://localhost:8080/geoserver/ECATSIG_LIZ/wms",{
+                  layers: 'ECATSIG_LIZ:Deslizamientos',
+                  visible: true,
+                  format: 'image/png',
+                  opacity:1,
+                  maxZoom: 18,
+                  transparent:true,
+                  version:'1.0.0',
+                  zIndex:20,
+                  attribution: 'Secretaría de Salud- FacGeo'
+              });
+              
+              //Definir las características de WMS 
+              var gradovul = L.tileLayer.wms("http://localhost:8080/geoserver/ECATSIG_LIZ/wms",{
+                  layers: 'ECATSIG_LIZ:Grado de vulnerabilidad',
+                  visible: true,
+                  format: 'image/png',
+                  opacity:0.5,
+                  maxZoom: 18,
+                  transparent:true,
+                  version:'1.0.0',
+                  zIndex:20,
+                  attribution: 'Secretaría de Salud- FacGeo'
+              });
+             
+             
+              
+              // Agregamos un control de capas personalizado
+              var controlCapas = L.control({position: 'topright'});
+              controlCapas.onAdd = function (map) {
+
+                var div = L.DomUtil.create('div', 'info legend');
+
+                div.innerHTML = '<table border ="0" width="100%"><tr><td><input name="checkbox1" type="checkbox" id="id1" onClick = "encenderCapas(this.value);" value="capacidadrespuesta" unchecked/> Capacidad de respuesta <br><input name="checkbox2" type="checkbox" id="id2" onClick = "encenderCapas(this.value);" value="delegaciones" unchecked/>Delegaciones<br> <input name="checkbox3" type="checkbox" id="id3" onClick = "encenderCapas(this.value);" value="deslizamientos" unchecked/> Deslizamientos <br> <input name="checkbox4" type="checkbox" id="id4" onClick = "encenderCapas(this.value);" value="gradovul" unchecked/>Grado de vulnerabilidad <br><br></td></tr></table>';
+                return div;
+              };
+
+              controlCapas.addTo(map);
+
+                // agregamos un control de mapas base
+              L.control.layers (mapasBase, misCapas).addTo(map);
+
+              // agregamos un mapa de referencia 
+              var mapaRef = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+              var miniMap = new L.Control.MiniMap(mapaRef, {toggleDisplay: true}).addTo(map);
+               
+              // agregar la barra de navegación
+              L.control.navbar({position: 'topleft'}).addTo(map);
+
+              // Coordenadas de la posición del mouse
+               L.control.mousePosition().addTo(map);
+
+              // Agregar el control de escala del mapa
+              L.control.scale().addTo(map);
+
+              // Barra de edición de dibujo
+              var drawnItems = new L.FeatureGroup();
+              map.addLayer(drawnItems);
+            
+              // Herramientas de dibujo
+              var drawControl = new L.Control.Draw({
+                position: 'topleft',
+                draw: {
+                    polygon: {
+                        shapeOptions: {color: 'purple'},
+                        allowIntersection: false,
+                        drawError: {color: 'orange',timeout: 1000},
+                        showArea: true,
+                        metric: false,
+                        repeatMode: true
+                    },
+                    polyline: {
+                        shapeOptions: {color: 'red'},
+                    },
+                    rect: {
+                        shapeOptions: {color: 'green'},
+                    },
+                    circle: {
+                        shapeOptions: {color: 'steelblue'},
+                    },
+                    marker: true
+                    },
+                            edit: {
+                              featureGroup: drawnItems,
+                              remove: true
+                        }
+              });
+              map.addControl(drawControl);
+              map.on('draw:created', function (e) {
+                var type = e.layerType,
+                layer = e.layer;
+                drawnItems.addLayer(layer);
+              });
+
+              var div = L.DomUtil.create('div', 'info-legend');
+              var titulo1 = 'Capacidad de respuesta';
+              contents1 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/ECATSIG_LIZ/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=ECATSIG_LIZ:Capacidad de respuesta" </img><br>';
+              
+              var titulo2 = 'Delegaciones';
+              contents2 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/ECATSIG_LIZ/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=ECATSIG_LIZ:Delegaciones" </img><br>';
+              
+              var titulo3 = 'Deslizamientos';
+              contents3 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/ECATSIG_LIZ/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=ECATSIG_LIZ:Deslizamientos" </img><br>';
+              
+              var titulo4 = 'Grado de vulnerabilidad';
+              contents4 = div.innerHTML = '<br><img src="http://localhost:8080/geoserver/ECATSIG_LIZ/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=ECATSIG_LIZ:Grado de vulnerabilidad" </img><br>';
+              var slideMenu = L.control.slideMenu('', {position: 'topright', delay: '5'}).addTo(map);
+              slideMenu.setContents(titulo1 + contents1 + titulo2+ contents2+ titulo3+ contents3+ titulo4+ contents4);
+              // Agregar el geocodificador
+            var osmGeocoder = new L.Control.OSMGeocoder();
+            map.addControl(osmGeocoder);
+
+            // Mi ubicación actual
+            L.control.locate().addTo(map);
+            // WFS de escuelas
+            /*var owsrootUrl = 'http://localhost:8080/geoserver/ECATSIG_LIZ/ows';
+
+            var defaultParameters = {
+                service: 'WFS',
+                version: '1.0.0',
+                request: 'GetFeature',
+                typeName: 'ECATSIG_LIZ:escuelas',
+                outputFormat: 'application/json',
+                };
+            var parameters = L.Util.extend(defaultParameters);
+            var URL = owsrootUrl + L.Util.getParamString(parameters);
+            var geojson;
+
+                function onEachFeature(feature, layer) {
+                layer.on({
+                click: layer.bindPopup("<h3>Escuelas</h3><b>CCT:</b> " + feature.properties.clave + ' <br> ' + '<b>Nivel:</b> ' + feature.properties.nivel + ' <br> ' + '<b>Turno:</b> ' + feature.properties.turno + ' <br> ' + '<b>Total alumnos:</b> ' + feature.properties.totalalum)
+                });
+                }
+
+                var markers = L.markerClusterGroup();
+
+                var iconoEscuelas = L.icon({
+                iconUrl: 'http://localhost:8080/geoserver/ECATSIG_LIZ/iconos/escuelas.png',
+                //shadowUrl: 'http://localhost:9090/vecindarios/iconos/rampa.png',
+
+                iconSize: [18, 20] // size of the icon
+                //shadowSize: [30, 30], // size of the shadow
+                //iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+                //shadowAnchor: [4, 62], // the same for the shadow
+                //popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+                });
+                $.ajax({
+                  url: URL,
+                  success: function (data) {
+                          geojson = new L.geoJson(data, {
+                          pointToLayer: function (feature, latlng) {
+                              return L.marker(latlng, {
+                                  icon: iconoEscuelas
+                              });
+                         },
+                          onEachFeature: onEachFeature
+                      }).addTo(markers);
+                  }
+                });*/
+            
+
+
+            // función de control de capas
+            function encenderCapas(idCapa) {
+              switch(idCapa) {
+                case "capacidadrespuesta":
+                if (id1.checked){
+                    capacidadrespuesta.addTo(map);
+                }
+                else {
+                  map.removeLayer(capacidadrespuesta);
+                }
+                case "delegaciones":
+                                
+                    if (id2.checked){
+                    delegaciones.addTo(map);
+                }
+                else {
+                  map.removeLayer(delegaciones);
+                }
+                case "deslizamientos":
+                                
+                                if (id3.checked){
+                                deslizamientos.addTo(map);
+                            }
+                            else {
+                              map.removeLayer(deslizamientos);
+                            } 
+                case "gradovul":
+                                
+                    if (id4.checked){
+                    gradovul.addTo(map);
+                }
+                else {
+                  map.removeLayer(gradovul);
+                }
+                
+              }
+            }
+        </script>
+    </body>
+</html>
